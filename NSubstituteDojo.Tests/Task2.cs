@@ -81,6 +81,69 @@ namespace NSubstituteDojo.Tests
 
             Assert.That(result.Status, Is.EqualTo(ChangeBadgerNameService.UpdateStatus.Ok));
             Assert.That(result.UpdatedBadger.Name, Is.EqualTo("Brock"));
-        }
-    }
+		}
+
+	    [Test] // STUBS
+	    public void QueryDatabaseErrorUsingStubs()
+	    {
+		    IFindBadgerByIdQuery findBadgerByIdQuery = null;
+		    IUpdateBadgerNameCommand updateBadgerNameCommand = null;
+
+		    var service = new ChangeBadgerNameService(findBadgerByIdQuery, updateBadgerNameCommand);
+
+		    Assert.That(() => service.ChangeName(_badger.Id, "Brock").Wait(),
+			    Throws.Exception.With.Message.EqualTo("Badgers broke the database"));
+	    }
+
+		[Test] // MOCKS
+	    public void QueryDatabaseErrorUsingMocks()
+	    {
+		    IFindBadgerByIdQuery findBadgerByIdQuery = null;
+		    IUpdateBadgerNameCommand updateBadgerNameCommand = null;
+
+		    var service = new ChangeBadgerNameService(findBadgerByIdQuery, updateBadgerNameCommand);
+
+		    findBadgerByIdQuery.Received(1).FindById(_badger.Id);
+		    updateBadgerNameCommand.Received(0).Update(Arg.Any<Guid>(), Arg.Any<string>());
+
+		    Assert.That(() => service.ChangeName(_badger.Id, "Brock").Wait(),
+			    Throws.Exception.With.Message.EqualTo("Badgers broke the database"));
+		}
+
+	    [Test] // STUBS
+	    public async void UpdatingTwiceTheSameNameUsingStubs()
+	    {
+		    IFindBadgerByIdQuery findBadgerByIdQuery = null;
+		    IUpdateBadgerNameCommand updateBadgerNameCommand = null;
+
+		    var service = new ChangeBadgerNameService(findBadgerByIdQuery, updateBadgerNameCommand);
+
+		    await service.ChangeName(_badger.Id, "Brock");
+
+		    var result = await service.ChangeName(_badger.Id, "Brock");
+
+		    Assert.That(result.Status, Is.EqualTo(ChangeBadgerNameService.UpdateStatus.Ok));
+		    Assert.That(result.UpdatedBadger.Name, Is.EqualTo("Brock"));
+	    }
+
+		[Test] // MOCKS
+	    public async void UpdatingTwiceTheSameNameUsingMocks()
+	    {
+		    IFindBadgerByIdQuery findBadgerByIdQuery = null;
+		    IUpdateBadgerNameCommand updateBadgerNameCommand = null;
+
+		    var service = new ChangeBadgerNameService(findBadgerByIdQuery, updateBadgerNameCommand);
+
+		    await service.ChangeName(_badger.Id, "Brock");
+
+		    findBadgerByIdQuery.ClearReceivedCalls();
+
+		    var result = await service.ChangeName(_badger.Id, "Brock");
+
+		    await updateBadgerNameCommand.Received(0).Update(Arg.Any<Guid>(), "Boris");
+
+		    Assert.That(result.Status, Is.EqualTo(ChangeBadgerNameService.UpdateStatus.Ok));
+		    Assert.That(result.UpdatedBadger.Name, Is.EqualTo("Brock"));
+	    }
+	}
 }

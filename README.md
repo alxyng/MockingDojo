@@ -27,8 +27,8 @@ Before beginning the Dojo, it would be useful to have a read of Martin Fowler's 
 - Run the tests.
 - Is there a downside to either of these two methods in this scenario? Which method do you think is most appropriate here?
 
----
+## Task 3
 
 - Now change the signature of the `Update` method on `IUpdateBadgerNameCommand` to take a `Badger` object rather than a `Guid` and a `string`.
-- Make your tests compile and pass again.
+- Make all your tests compile and pass again.
 - Which method of testing was more brittle and required most changes after this modification?

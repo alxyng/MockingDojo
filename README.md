@@ -6,12 +6,6 @@ In this session we are going to write some tests around a service that allows Ba
 
 Before beginning the Dojo, it would be useful to have a read of Martin Fowler's blog post [Mocks Aren't Stubs](https://martinfowler.com/articles/mocksArentStubs.html#TheDifferenceBetweenMocksAndStubs). The blog post is quite long so for this session just focus on the _'The Difference Between Mocks and Stubs'_ section. The whole post is still worth a read in your own time however.
 
-1. Open the `NSubstitueDojo` solution in Visual Studio 2015
-2. Take a look at the `ChangeBadgerNameService`
-3. Run the `ChangeBadgerNameServiceTests` (most of them should fail)
-
-[NSubstitute Docs](http://nsubstitute.github.io/help.html)
-
 ## Aims
 
 By the end of the session we hope you'll...
@@ -21,6 +15,14 @@ By the end of the session we hope you'll...
 - Be able to identify when / when not to use a Mock or Stub
 - Have practiced writing basic unit tests using Mocking and Stubbing
 - Be keen to write some more tests in your day job!
+
+## Getting Started
+
+1. Open the `NSubstitueDojo` solution in Visual Studio 2015
+2. Take a look at the `ChangeBadgerNameService`
+3. Run the `ChangeBadgerNameServiceTests` (most of them should fail)
+
+You may find the [NSubstitute Docs](http://nsubstitute.github.io/help.html) to be helpful.
 
 ## Task 1
 

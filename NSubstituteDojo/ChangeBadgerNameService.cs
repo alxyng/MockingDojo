@@ -16,12 +16,15 @@ namespace NSubstituteDojo
 
         public async Task<ChangeNameResult> ChangeName(Guid badgerId, string newName)
         {
-            if (!newName.StartsWith("B")) return new ChangeNameResult(UpdateStatus.InvalidName);
+            if (!newName.StartsWith("B"))
+				return new ChangeNameResult(UpdateStatus.InvalidName);
 
             var badger = await _findBadgerQuery.FindById(badgerId);
-            if (badger == null) return new ChangeNameResult(UpdateStatus.BadgerNotFound);
+            if (badger == null)
+				return new ChangeNameResult(UpdateStatus.BadgerNotFound);
 
-            if (badger.Name == newName) return new ChangeNameResult(UpdateStatus.Ok, badger);
+            if (badger.Name == newName)
+				return new ChangeNameResult(UpdateStatus.Ok, badger);
 
             await _updateNameCommand.Update(badger.Id, newName);
 

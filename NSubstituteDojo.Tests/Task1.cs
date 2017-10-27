@@ -14,7 +14,7 @@ namespace NSubstituteDojo.Tests
             _badger = new Badger(Guid.NewGuid(), "Boris");
         }
 
-        [Test]
+        [Test] // STUBS
         public async void UpdatingABadgerWithAnInvalidNameUsingStubs()
         {
             var service = new ChangeBadgerNameService(Substitute.For<IFindBadgerByIdQuery>(), Substitute.For<IUpdateBadgerNameCommand>());
@@ -24,7 +24,7 @@ namespace NSubstituteDojo.Tests
             Assert.That(result.Status, Is.EqualTo(ChangeBadgerNameService.UpdateStatus.InvalidName));
         }
 
-        [Test]
+        [Test] // MOCKS
         public async void UpdatingABadgerWithAnInvalidNameUsingMocks()
         {
             IFindBadgerByIdQuery findBadgerByIdQuery = null;
@@ -39,7 +39,19 @@ namespace NSubstituteDojo.Tests
 
         }
 
-        [Test]
+	    [Test] // STUBS
+	    public async void UpdatingABadgerThatDoesNotExistUsingStubs()
+	    {
+		    IFindBadgerByIdQuery findBadgerByIdQuery = null;
+
+		    var service = new ChangeBadgerNameService(findBadgerByIdQuery, Substitute.For<IUpdateBadgerNameCommand>());
+
+		    var result = await service.ChangeName(_badger.Id, "Brock");
+
+		    Assert.That(result.Status, Is.EqualTo(ChangeBadgerNameService.UpdateStatus.BadgerNotFound));
+	    }
+
+	    [Test] // MOCKS
         public async void UpdatingABadgerThatDoesNotExistUsingMocks()
         {
             IFindBadgerByIdQuery findBadgerByIdQuery = null;
@@ -49,18 +61,6 @@ namespace NSubstituteDojo.Tests
             var result = await service.ChangeName(_badger.Id, "Brock");
 
             await findBadgerByIdQuery.Received(1).FindById(_badger.Id);
-
-            Assert.That(result.Status, Is.EqualTo(ChangeBadgerNameService.UpdateStatus.BadgerNotFound));
-        }
-
-        [Test]
-        public async void UpdatingABadgerThatDoesNotExistUsingStubs()
-        {
-            IFindBadgerByIdQuery findBadgerByIdQuery = null;
-
-            var service = new ChangeBadgerNameService(findBadgerByIdQuery, Substitute.For<IUpdateBadgerNameCommand>());
-
-            var result = await service.ChangeName(_badger.Id, "Brock");
 
             Assert.That(result.Status, Is.EqualTo(ChangeBadgerNameService.UpdateStatus.BadgerNotFound));
         }

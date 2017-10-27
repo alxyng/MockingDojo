@@ -91,9 +91,9 @@ namespace NSubstituteDojo.Tests
 
 		    var service = new ChangeBadgerNameService(findBadgerByIdQuery, updateBadgerNameCommand);
 
-		    Assert.That(() => service.ChangeName(_badger.Id, "Brock").Wait(),
+		    Assert.That(async () => await service.ChangeName(_badger.Id, "Brock"),
 			    Throws.Exception.With.Message.EqualTo("Badgers broke the database"));
-	    }
+		}
 
 		[Test] // MOCKS
 	    public void QueryDatabaseErrorUsingMocks()
@@ -103,11 +103,11 @@ namespace NSubstituteDojo.Tests
 
 		    var service = new ChangeBadgerNameService(findBadgerByIdQuery, updateBadgerNameCommand);
 
+		    Assert.That(async () => await service.ChangeName(_badger.Id, "Brock"),
+			    Throws.Exception.With.Message.EqualTo("Badgers broke the database"));
+
 		    findBadgerByIdQuery.Received(1).FindById(_badger.Id);
 		    updateBadgerNameCommand.Received(0).Update(Arg.Any<Guid>(), Arg.Any<string>());
-
-		    Assert.That(() => service.ChangeName(_badger.Id, "Brock").Wait(),
-			    Throws.Exception.With.Message.EqualTo("Badgers broke the database"));
 		}
 
 	    [Test] // STUBS

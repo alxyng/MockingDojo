@@ -12,6 +12,16 @@ Before beginning the Dojo, it would be useful to have a read of Martin Fowler's 
 
 [NSubstitute Docs](http://nsubstitute.github.io/help.html)
 
+## Aims
+
+By the end of the session we hope you'll...
+
+* Feel comfortable with the commonly used features of NSubstitute
+* Understand the difference between Mocks and Stubs
+* Be able to identify when / when not to use a Mock or Stub
+* Have practiced writing basic unit tests using Mocking and Stubbing
+* Be keen to write some more tests in your day job!
+
 ## Task 1
 
 - Open `Task1.cs` in the Tests project.

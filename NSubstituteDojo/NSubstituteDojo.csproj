@@ -42,9 +42,11 @@
   <ItemGroup>
     <Compile Include="Badger.cs" />
     <Compile Include="ChangeBadgerNameService.cs" />
+    <Compile Include="ChangeNameResult.cs" />
     <Compile Include="IFindBadgerByIdQuery.cs" />
     <Compile Include="IUpdateBadgerNameCommand.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ChangeNameStatus.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -17,43 +17,18 @@ namespace NSubstituteDojo
         public async Task<ChangeNameResult> ChangeName(Guid badgerId, string newName)
         {
             if (!newName.StartsWith("B"))
-				return new ChangeNameResult(UpdateStatus.InvalidName);
+				return new ChangeNameResult(ChangeNameStatus.InvalidName);
 
             var badger = await _findBadgerQuery.FindById(badgerId);
             if (badger == null)
-				return new ChangeNameResult(UpdateStatus.BadgerNotFound);
+				return new ChangeNameResult(ChangeNameStatus.BadgerNotFound);
 
             if (badger.Name == newName)
-				return new ChangeNameResult(UpdateStatus.Ok, badger);
+				return new ChangeNameResult(ChangeNameStatus.Ok, badger);
 
             await _updateNameCommand.Update(badger.Id, newName);
 
-            return new ChangeNameResult(UpdateStatus.Ok, new Badger(badgerId, newName));
-        }
-
-        public enum UpdateStatus
-        {
-            Ok,
-            BadgerNotFound,
-            InvalidName,
-        }
-
-        public class ChangeNameResult
-        {
-            public ChangeNameResult(UpdateStatus updateStatus, Badger badger = null)
-            {
-                if (updateStatus == UpdateStatus.Ok && badger == null)
-                    throw new ArgumentException("UpdateStatus can't be OK if badger is null", nameof(badger));
-                if (badger != null && updateStatus != UpdateStatus.Ok)
-                    throw new ArgumentException("UpdateStatus must be OK when badger is not null", nameof(updateStatus));
-
-                Status = updateStatus;
-                UpdatedBadger = badger;
-            }
-
-            public Badger UpdatedBadger { get; }
-
-            public UpdateStatus Status { get;  }
+            return new ChangeNameResult(ChangeNameStatus.Ok, new Badger(badgerId, newName));
         }
     }
 }

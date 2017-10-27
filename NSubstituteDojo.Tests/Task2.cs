@@ -26,7 +26,7 @@ namespace NSubstituteDojo.Tests
 
             var result = await service.ChangeName(_badger.Id, "Boris");
 
-            Assert.That(result.Status, Is.EqualTo(ChangeBadgerNameService.UpdateStatus.Ok));
+            Assert.That(result.Status, Is.EqualTo(ChangeNameStatus.Ok));
             Assert.That(result.UpdatedBadger.Name, Is.EqualTo("Boris"));
         }
 
@@ -47,7 +47,7 @@ namespace NSubstituteDojo.Tests
             await findBadgerByIdQuery.Received(1).FindById(_badger.Id);
             await updateBadgerNameCommand.Received(0).Update(Arg.Any<Guid>(), "Boris");
 
-            Assert.That(result.Status, Is.EqualTo(ChangeBadgerNameService.UpdateStatus.Ok));
+            Assert.That(result.Status, Is.EqualTo(ChangeNameStatus.Ok));
             Assert.That(result.UpdatedBadger.Name, Is.EqualTo("Boris"));
         }
 
@@ -61,7 +61,7 @@ namespace NSubstituteDojo.Tests
 
             var result = await service.ChangeName(_badger.Id, "Brock");
 
-            Assert.That(result.Status, Is.EqualTo(ChangeBadgerNameService.UpdateStatus.Ok));
+            Assert.That(result.Status, Is.EqualTo(ChangeNameStatus.Ok));
             Assert.That(result.UpdatedBadger.Name, Is.EqualTo("Brock"));
 
         }
@@ -79,7 +79,7 @@ namespace NSubstituteDojo.Tests
             await findBadgerByIdQuery.Received(1).FindById(_badger.Id);
             await updateBadgerNameCommand.Received(1).Update(_badger.Id, "Brock");
 
-            Assert.That(result.Status, Is.EqualTo(ChangeBadgerNameService.UpdateStatus.Ok));
+            Assert.That(result.Status, Is.EqualTo(ChangeNameStatus.Ok));
             Assert.That(result.UpdatedBadger.Name, Is.EqualTo("Brock"));
 		}
 
@@ -122,7 +122,7 @@ namespace NSubstituteDojo.Tests
 
 		    var result = await service.ChangeName(_badger.Id, "Brock");
 
-		    Assert.That(result.Status, Is.EqualTo(ChangeBadgerNameService.UpdateStatus.Ok));
+		    Assert.That(result.Status, Is.EqualTo(ChangeNameStatus.Ok));
 		    Assert.That(result.UpdatedBadger.Name, Is.EqualTo("Brock"));
 	    }
 
@@ -142,7 +142,7 @@ namespace NSubstituteDojo.Tests
 
 		    await updateBadgerNameCommand.Received(0).Update(Arg.Any<Guid>(), "Boris");
 
-		    Assert.That(result.Status, Is.EqualTo(ChangeBadgerNameService.UpdateStatus.Ok));
+		    Assert.That(result.Status, Is.EqualTo(ChangeNameStatus.Ok));
 		    Assert.That(result.UpdatedBadger.Name, Is.EqualTo("Brock"));
 	    }
 	}

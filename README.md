@@ -16,11 +16,11 @@ Before beginning the Dojo, it would be useful to have a read of Martin Fowler's 
 
 By the end of the session we hope you'll...
 
-* Feel comfortable with the commonly used features of NSubstitute
-* Understand the difference between Mocks and Stubs
-* Be able to identify when / when not to use a Mock or Stub
-* Have practiced writing basic unit tests using Mocking and Stubbing
-* Be keen to write some more tests in your day job!
+- Feel comfortable with the commonly used features of NSubstitute
+- Understand the difference between Mocks and Stubs
+- Be able to identify when / when not to use a Mock or Stub
+- Have practiced writing basic unit tests using Mocking and Stubbing
+- Be keen to write some more tests in your day job!
 
 ## Task 1
 
@@ -42,3 +42,22 @@ By the end of the session we hope you'll...
 - Now change the signature of the `Update` method on `IUpdateBadgerNameCommand` to take a `Badger` object rather than a `Guid` and a `string`.
 - Make all your tests compile and pass again.
 - Which method of testing was more brittle and required most changes after this modification?
+
+## Task 4
+
+Your Badger product owner wants some additional validation when Badger's change their name. Based on the acceptance criteria provided, test drive some changes to the `ChangeBadgerNameService`.
+_Hint: You may find it useful to extract the validation logic into a separate validation service._
+
+- Make the changes to the `ChangeBadgerNameService`.
+- The tests should pass between each acceptance criteria.
+- What affect did your changes have on the tests for `ChangeBadgerNameService`?
+- Did you find any of the tests unhelpful when making these changes? Why?
+
+**Acceptance Criteria**
+- A badger's name must still begin with a capital letter.
+- A badger's name must still begin with the letter 'B'.
+- All but the first letter in a badger's name must be lower case.
+- A badger's name must only contain letters of the latin alphabet.
+- All above criteria should return an appropriate _'Invalid Name'_ response.
+- The badger's name must not exceed 50 characters.
+- The name length criteria should return an appropriate _'Name too long'_ response.

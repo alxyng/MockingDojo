@@ -27,7 +27,7 @@ namespace NSubstituteDojo.Tests
         [Test] // MOCKS
         public async void UpdatingABadgerWithAnInvalidNameUsingMocks()
         {
-            IFindBadgerByIdQuery findBadgerByIdQuery = null;
+            var findBadgerByIdQuery = Substitute.For<IFindBadgerByIdQuery>();
 
             var service = new ChangeBadgerNameService(findBadgerByIdQuery, Substitute.For<IUpdateBadgerNameCommand>());
 
@@ -42,9 +42,9 @@ namespace NSubstituteDojo.Tests
 	    [Test] // STUBS
 	    public async void UpdatingABadgerThatDoesNotExistUsingStubs()
 	    {
-		    IFindBadgerByIdQuery findBadgerByIdQuery = null;
+			var findBadgerByIdQuery = Substitute.For<IFindBadgerByIdQuery>();
 
-		    var service = new ChangeBadgerNameService(findBadgerByIdQuery, Substitute.For<IUpdateBadgerNameCommand>());
+			var service = new ChangeBadgerNameService(findBadgerByIdQuery, Substitute.For<IUpdateBadgerNameCommand>());
 
 		    var result = await service.ChangeName(_badger.Id, "Brock");
 
@@ -54,9 +54,9 @@ namespace NSubstituteDojo.Tests
 	    [Test] // MOCKS
         public async void UpdatingABadgerThatDoesNotExistUsingMocks()
         {
-            IFindBadgerByIdQuery findBadgerByIdQuery = null;
+			var findBadgerByIdQuery = Substitute.For<IFindBadgerByIdQuery>();
 
-            var service = new ChangeBadgerNameService(findBadgerByIdQuery, Substitute.For<IUpdateBadgerNameCommand>());
+			var service = new ChangeBadgerNameService(findBadgerByIdQuery, Substitute.For<IUpdateBadgerNameCommand>());
 
             var result = await service.ChangeName(_badger.Id, "Brock");
 

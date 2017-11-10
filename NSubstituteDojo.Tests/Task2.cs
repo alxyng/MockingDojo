@@ -1,5 +1,6 @@
 ﻿using System;
 using NSubstitute;
+using NSubstitute.ExceptionExtensions;
 using NUnit.Framework;
 
 namespace NSubstituteDojo.Tests
@@ -38,7 +39,7 @@ namespace NSubstituteDojo.Tests
 				.FindById(Arg.Any<Guid>())
 				.Returns(_badger);
 
-            IUpdateBadgerNameCommand updateBadgerNameCommand = null;
+	        var updateBadgerNameCommand = Substitute.For<IUpdateBadgerNameCommand>();
 
             var service = new ChangeBadgerNameService(findBadgerByIdQuery, updateBadgerNameCommand);
 
@@ -54,10 +55,14 @@ namespace NSubstituteDojo.Tests
         [Test] // STUBS
         public async void UpdatingABadgerWithAValidNameUsingStubs()
         {
-            IFindBadgerByIdQuery findBadgerByIdQuery = null;
-            IUpdateBadgerNameCommand updateBadgerNameCommand = null;
+            var findBadgerByIdQuery = Substitute.For<IFindBadgerByIdQuery>();
+	        findBadgerByIdQuery
+		        .FindById(Arg.Any<Guid>())
+		        .Returns(_badger);
 
-            var service = new ChangeBadgerNameService(findBadgerByIdQuery, updateBadgerNameCommand);
+			var updateBadgerNameCommand = Substitute.For<IUpdateBadgerNameCommand>();
+
+			var service = new ChangeBadgerNameService(findBadgerByIdQuery, updateBadgerNameCommand);
 
             var result = await service.ChangeName(_badger.Id, "Brock");
 
@@ -69,10 +74,14 @@ namespace NSubstituteDojo.Tests
         [Test] // MOCKS
         public async void UpdatingABadgerWithAValidNameUsingMocks()
         {
-            IFindBadgerByIdQuery findBadgerByIdQuery = null;
-            IUpdateBadgerNameCommand updateBadgerNameCommand = null;
+			var findBadgerByIdQuery = Substitute.For<IFindBadgerByIdQuery>();
+	        findBadgerByIdQuery
+		        .FindById(Arg.Any<Guid>())
+		        .Returns(_badger);
 
-            var service = new ChangeBadgerNameService(findBadgerByIdQuery, updateBadgerNameCommand);
+			var updateBadgerNameCommand = Substitute.For<IUpdateBadgerNameCommand>();
+
+			var service = new ChangeBadgerNameService(findBadgerByIdQuery, updateBadgerNameCommand);
 
             var result = await service.ChangeName(_badger.Id, "Brock");
 
@@ -86,10 +95,14 @@ namespace NSubstituteDojo.Tests
 	    [Test] // STUBS
 	    public void QueryDatabaseErrorUsingStubs()
 	    {
-		    IFindBadgerByIdQuery findBadgerByIdQuery = null;
-		    IUpdateBadgerNameCommand updateBadgerNameCommand = null;
+			var findBadgerByIdQuery = Substitute.For<IFindBadgerByIdQuery>();
+		    findBadgerByIdQuery
+			    .FindById(Arg.Any<Guid>())
+				.Throws(new Exception("Badgers broke the database"));
 
-		    var service = new ChangeBadgerNameService(findBadgerByIdQuery, updateBadgerNameCommand);
+			var updateBadgerNameCommand = Substitute.For<IUpdateBadgerNameCommand>();
+
+			var service = new ChangeBadgerNameService(findBadgerByIdQuery, updateBadgerNameCommand);
 
 		    Assert.That(async () => await service.ChangeName(_badger.Id, "Brock"),
 			    Throws.Exception.With.Message.EqualTo("Badgers broke the database"));
@@ -98,10 +111,14 @@ namespace NSubstituteDojo.Tests
 		[Test] // MOCKS
 	    public void QueryDatabaseErrorUsingMocks()
 	    {
-		    IFindBadgerByIdQuery findBadgerByIdQuery = null;
-		    IUpdateBadgerNameCommand updateBadgerNameCommand = null;
+			var findBadgerByIdQuery = Substitute.For<IFindBadgerByIdQuery>();
+		    findBadgerByIdQuery
+			    .FindById(Arg.Any<Guid>())
+			    .Throws(new Exception("Badgers broke the database"));
 
-		    var service = new ChangeBadgerNameService(findBadgerByIdQuery, updateBadgerNameCommand);
+			var updateBadgerNameCommand = Substitute.For<IUpdateBadgerNameCommand>();
+
+			var service = new ChangeBadgerNameService(findBadgerByIdQuery, updateBadgerNameCommand);
 
 		    Assert.That(async () => await service.ChangeName(_badger.Id, "Brock"),
 			    Throws.Exception.With.Message.EqualTo("Badgers broke the database"));
@@ -113,10 +130,14 @@ namespace NSubstituteDojo.Tests
 	    [Test] // STUBS
 	    public async void UpdatingTwiceTheSameNameUsingStubs()
 	    {
-		    IFindBadgerByIdQuery findBadgerByIdQuery = null;
-		    IUpdateBadgerNameCommand updateBadgerNameCommand = null;
+		    var findBadgerByIdQuery = Substitute.For<IFindBadgerByIdQuery>();
+		    findBadgerByIdQuery
+			    .FindById(Arg.Any<Guid>())
+			    .Returns(_badger);
 
-		    var service = new ChangeBadgerNameService(findBadgerByIdQuery, updateBadgerNameCommand);
+			var updateBadgerNameCommand = Substitute.For<IUpdateBadgerNameCommand>();
+
+			var service = new ChangeBadgerNameService(findBadgerByIdQuery, updateBadgerNameCommand);
 
 		    await service.ChangeName(_badger.Id, "Brock");
 
@@ -129,14 +150,18 @@ namespace NSubstituteDojo.Tests
 		[Test] // MOCKS
 	    public async void UpdatingTwiceTheSameNameUsingMocks()
 	    {
-		    IFindBadgerByIdQuery findBadgerByIdQuery = null;
-		    IUpdateBadgerNameCommand updateBadgerNameCommand = null;
+		    var findBadgerByIdQuery = Substitute.For<IFindBadgerByIdQuery>();
+		    findBadgerByIdQuery
+			    .FindById(Arg.Any<Guid>())
+			    .Returns(_badger, new Badger(_badger.Id, "Brock"));
 
-		    var service = new ChangeBadgerNameService(findBadgerByIdQuery, updateBadgerNameCommand);
+			var updateBadgerNameCommand = Substitute.For<IUpdateBadgerNameCommand>();
+
+			var service = new ChangeBadgerNameService(findBadgerByIdQuery, updateBadgerNameCommand);
 
 		    await service.ChangeName(_badger.Id, "Brock");
 
-		    updateBadgerNameCommand.ClearReceivedCalls();
+			updateBadgerNameCommand.ClearReceivedCalls();
 
 		    var result = await service.ChangeName(_badger.Id, "Brock");
 

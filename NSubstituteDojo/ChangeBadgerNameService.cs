@@ -7,13 +7,13 @@ namespace NSubstituteDojo
     {
         private readonly IFindBadgerByIdQuery _findBadgerQuery;
         private readonly IUpdateBadgerNameCommand _updateNameCommand;
-	    private readonly BadgerNameValidator _badgerNameValidator;
+	    private readonly IBadgerNameValidator _badgerNameValidator;
 
-	    public ChangeBadgerNameService(IFindBadgerByIdQuery findBadgerQuery, IUpdateBadgerNameCommand updateNameCommand)
+	    public ChangeBadgerNameService(IFindBadgerByIdQuery findBadgerQuery, IUpdateBadgerNameCommand updateNameCommand, IBadgerNameValidator badgerNameValidator)
         {
             _findBadgerQuery = findBadgerQuery;
             _updateNameCommand = updateNameCommand;
-	        _badgerNameValidator = new BadgerNameValidator();
+	        _badgerNameValidator = badgerNameValidator;
         }
 
         public async Task<ChangeNameResult> ChangeName(Guid badgerId, string newName)

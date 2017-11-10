@@ -7,17 +7,28 @@ namespace NSubstituteDojo
     {
         private readonly IFindBadgerByIdQuery _findBadgerQuery;
         private readonly IUpdateBadgerNameCommand _updateNameCommand;
+	    private readonly BadgerNameValidator _badgerNameValidator;
 
-        public ChangeBadgerNameService(IFindBadgerByIdQuery findBadgerQuery, IUpdateBadgerNameCommand updateNameCommand)
+	    public ChangeBadgerNameService(IFindBadgerByIdQuery findBadgerQuery, IUpdateBadgerNameCommand updateNameCommand)
         {
             _findBadgerQuery = findBadgerQuery;
             _updateNameCommand = updateNameCommand;
+	        _badgerNameValidator = new BadgerNameValidator();
         }
 
         public async Task<ChangeNameResult> ChangeName(Guid badgerId, string newName)
         {
-            if (!new BadgerNameValidator().IsValid(newName))
-	            return new ChangeNameResult(ChangeNameStatus.InvalidName);
+	        switch (_badgerNameValidator.IsValid(newName))
+	        {
+		        case BadgerNameValidatorResult.Success:
+			        break;
+		        case BadgerNameValidatorResult.InvalidName:
+					return new ChangeNameResult(ChangeNameStatus.InvalidName);
+				case BadgerNameValidatorResult.NameTooLong:
+					return new ChangeNameResult(ChangeNameStatus.NameTooLong);
+				default:
+			        throw new ArgumentOutOfRangeException();
+	        }
 
 			var badger = await _findBadgerQuery.FindById(badgerId);
             if (badger == null)

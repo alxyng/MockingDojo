@@ -5,5 +5,6 @@
 		Ok,
 		BadgerNotFound,
 		InvalidName,
+		NameTooLong
 	}
 }

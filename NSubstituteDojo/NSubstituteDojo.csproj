@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Badger.cs" />
+    <Compile Include="BadgerNameValidator.cs" />
     <Compile Include="ChangeBadgerNameService.cs" />
     <Compile Include="ChangeNameResult.cs" />
     <Compile Include="IFindBadgerByIdQuery.cs" />

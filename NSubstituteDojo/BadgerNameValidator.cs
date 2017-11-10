@@ -19,13 +19,18 @@ namespace NSubstituteDojo
 			if (!name.StartsWith("B"))
 				return BadgerNameValidatorResult.InvalidName;
 
-			if (!Regex.IsMatch(name.Substring(1), @"^[a-z]+$"))
+			if (!ContainsOnlyLowercaseLatinAlphabetLetters(name.Substring(1)))
 				return BadgerNameValidatorResult.InvalidName;
 
 			if (name.Length > 50)
 				return BadgerNameValidatorResult.NameTooLong;
 
 			return BadgerNameValidatorResult.Success;
+		}
+
+		private static bool ContainsOnlyLowercaseLatinAlphabetLetters(string str)
+		{
+			return Regex.IsMatch(str, @"^[a-z]+$");
 		}
 	}
 }

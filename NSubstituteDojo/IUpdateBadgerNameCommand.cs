@@ -1,10 +1,9 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 namespace NSubstituteDojo
 {
     public interface IUpdateBadgerNameCommand
     {
-        Task Update(Guid badgerId, string newName);
+        Task Update(Badger badger);
     }
 }

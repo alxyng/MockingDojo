@@ -26,7 +26,7 @@ namespace NSubstituteDojo
             if (badger.Name == newName)
 				return new ChangeNameResult(ChangeNameStatus.Ok, badger);
 
-            await _updateNameCommand.Update(badger.Id, newName);
+            await _updateNameCommand.Update(new Badger(badger.Id, newName));
 
             return new ChangeNameResult(ChangeNameStatus.Ok, new Badger(badgerId, newName));
         }

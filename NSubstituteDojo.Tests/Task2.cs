@@ -46,9 +46,9 @@ namespace NSubstituteDojo.Tests
             var result = await service.ChangeName(_badger.Id, "Boris");
 
             await findBadgerByIdQuery.Received(1).FindById(_badger.Id);
-            await updateBadgerNameCommand.Received(0).Update(Arg.Any<Guid>(), Arg.Any<string>());
+            await updateBadgerNameCommand.Received(0).Update(Arg.Any<Badger>());
 
-            Assert.That(result.Status, Is.EqualTo(ChangeNameStatus.Ok));
+			Assert.That(result.Status, Is.EqualTo(ChangeNameStatus.Ok));
             Assert.That(result.UpdatedBadger.Name, Is.EqualTo("Boris"));
         }
 
@@ -86,9 +86,9 @@ namespace NSubstituteDojo.Tests
             var result = await service.ChangeName(_badger.Id, "Brock");
 
             await findBadgerByIdQuery.Received(1).FindById(_badger.Id);
-            await updateBadgerNameCommand.Received(1).Update(_badger.Id, "Brock");
+            await updateBadgerNameCommand.Received(1).Update(Arg.Is<Badger>(b => b.Id == _badger.Id && b.Name == "Brock"));
 
-            Assert.That(result.Status, Is.EqualTo(ChangeNameStatus.Ok));
+			Assert.That(result.Status, Is.EqualTo(ChangeNameStatus.Ok));
             Assert.That(result.UpdatedBadger.Name, Is.EqualTo("Brock"));
 		}
 
@@ -124,7 +124,7 @@ namespace NSubstituteDojo.Tests
 			    Throws.Exception.With.Message.EqualTo("Badgers broke the database"));
 
 		    findBadgerByIdQuery.Received(1).FindById(_badger.Id);
-		    updateBadgerNameCommand.Received(0).Update(Arg.Any<Guid>(), Arg.Any<string>());
+		    updateBadgerNameCommand.Received(0).Update(Arg.Any<Badger>());
 		}
 
 	    [Test] // STUBS
@@ -165,9 +165,9 @@ namespace NSubstituteDojo.Tests
 
 		    var result = await service.ChangeName(_badger.Id, "Brock");
 
-		    await updateBadgerNameCommand.Received(0).Update(Arg.Any<Guid>(), Arg.Any<string>());
+		    await updateBadgerNameCommand.Received(0).Update(Arg.Any<Badger>());
 
-		    Assert.That(result.Status, Is.EqualTo(ChangeNameStatus.Ok));
+			Assert.That(result.Status, Is.EqualTo(ChangeNameStatus.Ok));
 		    Assert.That(result.UpdatedBadger.Name, Is.EqualTo("Brock"));
 	    }
 	}
